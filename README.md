@@ -7,7 +7,7 @@ Feel free to ask all the questions you want at my Discord: https://discord.gg/B2
 I will be using Arch Linux during this guide, so it may not work for your operating system.
 
 
-I am not sure if it is needed, but enable IOMMU in your bios settings. This can differ from BIOS to BIOS.
+Always enable IOMMU in your bios settings. This can differ from BIOS to BIOS, but make sure it has IOMMU enabled. Also enable virtualization in your BIOS, it may be named SVM or AMD-Vi or equivalent.
 
 Install your kernel of choice, for this guide I will be using the linux-vfio kernel. I will also add the option to edit your GRUB to let your last selected kernel to be the default (optional).
 
