@@ -25,7 +25,7 @@ This will bind your GPU to the vfio-pci driver on bootup
     Edit your GRUB to contain iommu=pt, pcie_acs_override=downstream,multifunction, and vfio-pci.ids=id,id. This will bind your PCI device of choice to the linux-vfio driver.
     Your grub should look like something along these lines: 'GRUB_CMDLINE_LINUX_DEFAULT="loglevel=3 quiet amd_iommu=on iommu=pt pcie_acs_override=downstream,multifunction vfio-pci.ids=1002:6759,1002:aa90"'
 
-Reboot, and you should have your GPU isolated and everything in its own IOMMU group, verify with 'sudo lspci -vv'. Scroll to your GPU, and verify it shows in its own IOMMU group and is using the vfio-pci driver, like so:
+Regenerate your GRUB using 'sudo grub-mkconfig -o /boot/grub/grub.cfg', reboot, and you should have your GPU isolated and everything in its own IOMMU group, verify with 'sudo lspci -vv'. Scroll to your GPU, and verify it shows in its own IOMMU group and is using the vfio-pci driver, like so:
 '25:00.0 VGA compatible controller: Advanced Micro Devices, Inc. [AMD/ATI] Turks PRO [Radeon HD 6570/7570/8550 / R5 230] (prog-if 00 [VGA controller])
         Subsystem: PC Partner Limited / Sapphire Technology Device e193
         Control: I/O- Mem- BusMaster- SpecCycle- MemWINV- VGASnoop- ParErr- Stepping- SERR- FastB2B- DisINTx-
