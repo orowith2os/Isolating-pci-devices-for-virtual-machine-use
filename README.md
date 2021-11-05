@@ -22,14 +22,9 @@ This is optional, but I will edit my grub to let it use the last selected kernel
 This will bind your GPU to the vfio-pci driver on bootup
 
     Execute 'lspci -nn' to find your device IDs. In my case, the IDs are 1002:6759 and 1002:aa90. Remember this for later.
-    
-Edit your modprobe and your mkinitcpio file:
+    Edit your GRUB to contain iommu=pt, pcie_acs_override=downstream,multifunction, and vfio-pci.ids=id,id. This will bind your PCI device of choice to the linux-vfio driver.
+    Your grub should look like something along these lines: 'GRUB_CMDLINE_LINUX_DEFAULT="loglevel=3 quiet amd_iommu=on iommu=pt pcie_acs_override=downstream,multifunction vfio-pci.ids=1002:6759,1002:aa90"'
 
-    1. Edit your modprobe file with this text: options vfio-pci ids=id,id (replace the 'id's for your device IDs. If you want to put more devices inside here, add a , after the second ID and enter your ID so it looks like 'ids=id,id,id'. Regenerate your modprobe file with the following command: 'sudo mkinitcpio -P'. I am not sure if you need to regenerate it, but just in case, run the command.
-    2. Edit your mkinitcpio file, /etc/mkinitcpio.conf: add 'vfio_pci vfio vfio_iommu_type1 vfio_virqfd' to the MODULES= like, so it looks somewhat like this: 'MODULES=(... vfio_pci vfio vfio_iommu_type1 vfio_virqfd ...)'.
-    3. Also edit the hooks line to contain 'modconf' like so: 'HOOKS=(... modconf ...)'
-    4. Regenerate your mkinitcpio file: 'sudo mkinitcpio -P'.
-    
 Reboot, and you should have your GPU isolated and everything in its own IOMMU group, verify with 'sudo lspci -vv'. Scroll to your GPU, and verify it shows in its own IOMMU group and is using the vfio-pci driver, like so:
 '25:00.0 VGA compatible controller: Advanced Micro Devices, Inc. [AMD/ATI] Turks PRO [Radeon HD 6570/7570/8550 / R5 230] (prog-if 00 [VGA controller])
         Subsystem: PC Partner Limited / Sapphire Technology Device e193
