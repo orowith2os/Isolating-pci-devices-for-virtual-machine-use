@@ -11,7 +11,7 @@ Always enable IOMMU in your bios settings. This can differ from BIOS to BIOS, bu
 
 Install your kernel of choice, for this guide I will be using the linux-vfio kernel. I will also add the option to edit your GRUB to let your last selected kernel to be the default (optional).
 
-    Install linux-vfio. This may take a while. For me it took 30 minutes, but this may differ.
+   Install linux-vfio. This may take a while. For me it took 30 minutes, but this may differ.
 
 This is optional, but I will edit my grub to let it use the last selected kernel as the default on next bootup. 
 
