@@ -15,7 +15,7 @@ Install your kernel of choice, for this guide I will be using the linux-vfio ker
 
 This is optional, but I will edit my grub to let it use the last selected kernel as the default on next bootup. 
 
-   1. Edit the options GRUB_DEFAULT= amd GRUB_SAVEDEFAULT= to GRUB_DEFAULT=saved and GRUB_SAVEDEFAULT=true.
+   1. Edit the options GRUB_DEFAULT= and GRUB_SAVEDEFAULT= to GRUB_DEFAULT=saved and GRUB_SAVEDEFAULT=true.
     2. Again, optional, but you can add GRUB_DISABLE_SUBMENU=y to disable submenus. If you don't want this option, disable or remove it.
      3. Regenerate your GRUB: ''sudo grub-mkconfig -o /boot/grub/grub.cfg'' (or equivalent)
 
@@ -23,7 +23,7 @@ This will bind your GPU to the vfio-pci driver on bootup
 
    Execute ''lspci -nn'' to find your device IDs. In my case, the IDs are 1002:6759 and 1002:aa90. Remember this for later.
     Edit your GRUB to contain iommu=pt, pcie_acs_override=downstream,multifunction, and vfio-pci.ids=id,id. This will bind your PCI device of choice to the linux-vfio driver.
-   Your grub should look like something along these lines: 'GRUB_CMDLINE_LINUX_DEFAULT="loglevel=3 quiet amd_iommu=on iommu=pt pcie_acs_override=downstream,multifunction vfio-pci.ids=1002:6759,1002:aa90"'
+   Your grub should look like something along these lines: 'GRUB_CMDLINE_LINUX_DEFAULT="loglevel=3 quiet amd_iommu=on iommu=pt pcie_acs_override=downstream,multifunction vfio-pci.ids=1002:6759,1002:aa90"' (I don't know waht to do for Intel, so to be safe, research some before doing this)
    Edit your mkinitcpio file, /etc/mkinitcpio.conf: add 'vfio_pci vfio vfio_iommu_type1 vfio_virqfd' to the MODULES= like, so it looks somewhat like this: '''MODULES=(... vfio_pci vfio vfio_iommu_type1 vfio_virqfd ...)'''.
    Also edit the hooks line to contain 'modconf' like so: '''HOOKS=(... modconf ...)'''
    Regenerate your mkinitcpio file: ''sudo mkinitcpio -P''.
