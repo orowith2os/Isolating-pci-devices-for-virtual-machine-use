@@ -13,8 +13,8 @@ This will bind your GPU to the vfio-pci driver on bootup:
    2. Regenerate your GRUB using `sudo grub-mkconfig -o /boot/grub/grub.cfg`
    Your grub configuration file should look like something along these lines: `GRUB_CMDLINE_LINUX_DEFAULT="loglevel=3 quiet amd_iommu=on iommu=pt pcie_acs_override=downstream,multifunction vfio-pci.ids=id(,id)"`
    3. Regenerate your GRUB configuration file using `sudo grub-mkconfig -o /boot/grub/grub.cfg`
-   Edit your mkinitcpio file, /etc/mkinitcpio.conf: add 'vfio_pci vfio vfio_iommu_type1 vfio_virqfd' to the MODULES= like, so it looks somewhat like this: `MODULES=(... vfio_pci vfio vfio_iommu_type1 vfio_virqfd ...)`.
-   4. Also edit the hooks line to contain 'modconf' like so: `HOOKS=(... modconf ...)`
+   4. Edit your mkinitcpio file, /etc/mkinitcpio.conf: add `vfio_pci vfio vfio_iommu_type1 vfio_virqfd` to the MODULES= like, so it looks somewhat like this: `MODULES=(... vfio_pci vfio vfio_iommu_type1 vfio_virqfd ...)`.
+   Also edit the hooks line to contain `modconf` like so: `HOOKS=(... modconf ...)`
    Regenerate your mkinitcpio file: `sudo mkinitcpio -P`.
 
 Reboot, and your PCI devices should be isolated and everything in its own IOMMU group. Running `lspci -nnv` should show the beginning numbers each go in order from the top down, e.g. the first number set is 00, the next is 01, next down is 02, so on, so on. Under `Kernel driver in use:` in your output, it should show `vfio-pci`. If it 
