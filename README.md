@@ -1,8 +1,8 @@
 This can differ from BIOS to BIOS, but make sure it has IOMMU enabled. Also enable virtualization in your BIOS, it may be named SVM or AMD-Vi.
 
 Requirements for isolating the GPU/any PCIe device:
-IOMMU support in BIOS
-A second GPU to use for the host OS, if you are passing through a GPU. This guide attaches the GPU to the `vfio-pci` module, so it will not be available for as long as the vfio kernel is running.
+ •IOMMU support in BIOS
+ •A second GPU to use for the host OS, if you are passing through a GPU. This guide attaches the device to the `vfio-pci` module, so it will not be available for as long as the vfio kernel is running.
 
 Install the `linux-vfio` kernel, or a Linux kernel with the ACS override patch. This may vary from system to system, and is required for the PCIe passthrough to work if your device does not have its own IOMMU group.
 
