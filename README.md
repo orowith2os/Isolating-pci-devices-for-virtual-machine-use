@@ -21,6 +21,6 @@ Reboot, and your PCI devices should be isolated and everything in its own IOMMU 
 
 This is optional, but I will edit my grub to let it use the last selected kernel as the default on next system restart. 
 
-   1. Edit the options GRUB_DEFAULT= and GRUB_SAVEDEFAULT= to GRUB_DEFAULT=saved and GRUB_SAVEDEFAULT=true.
-   2. Again, optional, but you can add GRUB_DISABLE_SUBMENU=y to disable submenus. If you don't want this option, disable or remove it.
+   1. Edit the options `GRUB_DEFAULT= and GRUB_SAVEDEFAULT=` to `GRUB_DEFAULT=saved` and `GRUB_SAVEDEFAULT=true`.
+   2. Again, optional, but you can add `GRUB_DISABLE_SUBMENU=y` to disable submenus. If you don't want this option, disable or remove it.
    3. Regenerate your GRUB: `sudo grub-mkconfig -o /boot/grub/grub.cfg`
