@@ -6,7 +6,7 @@ Requirements for isolating the GPU/any PCIe device:
 
 •A second GPU to use for the host OS, if you are passing through a GPU. This guide attaches the device to the `vfio-pci` module, so it will not be available for as long as the vfio kernel is running.
 
-##GUIDE
+# GUIDE
 
 
 Install the `linux-vfio` kernel, or a Linux kernel with the ACS override patch. This may vary from system to system, and is required for the PCIe passthrough to work if your device does not have its own IOMMU group.
