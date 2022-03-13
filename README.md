@@ -1,5 +1,4 @@
-WARNING: This guide is made ON and FOR an AMD system, so your your mileage may vary if you use Intel.
-Always enable IOMMU in your bios settings if you use this guide. This can differ from BIOS to BIOS, but make sure it has IOMMU enabled. Also enable virtualization in your BIOS, it may be named SVM or AMD-Vi or equivalent.
+This can differ from BIOS to BIOS, but make sure it has IOMMU enabled. Also enable virtualization in your BIOS, it may be named SVM or AMD-Vi.
 
 Requirements for isolating the GPU/any PCIe device:
 IOMMU support in BIOS
@@ -9,13 +8,13 @@ Install the `linux-vfio` kernel, or a Linux kernel with the ACS override patch. 
 
 This will bind your GPU to the vfio-pci driver on bootup:
 
-   Execute ''lspci -nn'' to find your device IDs. They should be surrounded by square brackets near the end, before (rev X).
+   1. Execute ''lspci -nn'' to find your device IDs. They should be surrounded by square brackets near the end, before (rev X).
     Edit your GRUB to contain `iommu=pt pcie_acs_override=downstream,multifunction, and vfio-pci.ids=id`. If you pass through mmore than one device, separate them with a comma, so it should look like `vfio-pci.ids=id`. This will bind your PCI device(s) of choice to the linux-vfio kernel driver.
-   Regenerate your GRUB using `sudo grub-mkconfig -o /boot/grub/grub.cfg`
+   2. Regenerate your GRUB using `sudo grub-mkconfig -o /boot/grub/grub.cfg`
    Your grub configuration file should look like something along these lines: `GRUB_CMDLINE_LINUX_DEFAULT="loglevel=3 quiet amd_iommu=on iommu=pt pcie_acs_override=downstream,multifunction vfio-pci.ids=id(,id)"`
-   Regenerate your GRUB configuration file using `sudo grub-mkconfig -o /boot/grub/grub.cfg`
+   3. Regenerate your GRUB configuration file using `sudo grub-mkconfig -o /boot/grub/grub.cfg`
    Edit your mkinitcpio file, /etc/mkinitcpio.conf: add 'vfio_pci vfio vfio_iommu_type1 vfio_virqfd' to the MODULES= like, so it looks somewhat like this: 'MODULES=(... vfio_pci vfio vfio_iommu_type1 vfio_virqfd ...)'.
-   Also edit the hooks line to contain 'modconf' like so: `HOOKS=(... modconf ...)`
+   4. Also edit the hooks line to contain 'modconf' like so: `HOOKS=(... modconf ...)`
    Regenerate your mkinitcpio file: 'sudo mkinitcpio -P'.
 
 Reboot, and your PCI devices should be isolated and everything in its own IOMMU group. Running `lspci -nnv` should show the beginning numbers each go in order from the top down, e.g. the first number set is 00, the next is 01, next down is 02, so on, so on. Under `Kernel driver in use:` in your output, it should show `vfio-pci`. If it 
